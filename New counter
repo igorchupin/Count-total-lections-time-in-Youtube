@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-
 import java.lang.reflect.Array;
 import java.sql.Time;
 import java.util.Arrays;
@@ -15,11 +14,10 @@ public class Class {
         WebDriverManager.chromedriver().setup();
     }
     public static WebDriver driver;
-
     public static void beforeTest () {
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(); 
     }
-
+    
     public static void main(String[] args) {
         beforeClass();
         beforeTest();
@@ -38,31 +36,35 @@ public class Class {
                actions.moveToElement(elements.get(i));
                actions.perform();
 
-               if (elements.get(i).getText().length() > 5)
-               HoursCount = HoursCount + Integer.parseInt(elements.get(i).getText().substring(0,1));
+               if (elements.get(i).getText().length() != 5) {
+               HoursCount = HoursCount + Integer.parseInt(elements.get(i).getText().substring(0,1));}
+               else {HoursCount = HoursCount + 0; }
 
-               if (elements.get(i).getText().length() > 5) {
-               MinutesCoumt = MinutesCoumt + Integer.parseInt(elements.get(i).getText().substring(3,4));}
-               else { MinutesCoumt = MinutesCoumt + Integer.parseInt(elements.get(i).getText().substring(0,1));}
+               if (elements.get(i).getText().length() == 5) {
+               MinutesCoumt = MinutesCoumt + Integer.parseInt(elements.get(i).getText().substring(0,2));}
 
-               if (elements.get(i).getText().length() > 5) {
-               SecondsCount = SecondsCount + Integer.parseInt(elements.get(i).getText().substring(6,7));}
-               else {SecondsCount = SecondsCount + Integer.parseInt(elements.get(i).getText().substring(3,4));}
+               else { MinutesCoumt = MinutesCoumt + Integer.parseInt(elements.get(i).getText().substring(2,4));}
 
+               if (elements.get(i).getText().length() == 5) {
+               SecondsCount = SecondsCount + Integer.parseInt(elements.get(i).getText().substring(4,5));}
+               else {SecondsCount = SecondsCount + Integer.parseInt(elements.get(i).getText().substring(5,7));
+
+               System.out.println(HoursCount + "Value" + Integer.parseInt(elements.get(i).getText().substring(0,1)) +
+                       "  " + MinutesCoumt + SecondsCount );}
+               
         }
-
+        System.out.println(SecondsCount);
               int secondsToMInutes = SecondsCount / 60;
-              SecondsCount = SecondsCount - secondsToMInutes*60;
+              SecondsCount = SecondsCount - secondsToMInutes * 60;
               MinutesCoumt = MinutesCoumt + secondsToMInutes;
 
+
               int minutesToHours = MinutesCoumt / 60;
-              MinutesCoumt = MinutesCoumt - minutesToHours*60;
+             MinutesCoumt = MinutesCoumt - minutesToHours * 60;
               HoursCount = HoursCount + minutesToHours;
 
               System.out.println("Всего было лекций: " + HoursCount + " Часов " + MinutesCoumt +
                                                           " Минут " + SecondsCount + " секунд");
-
               driver.close();
-
         }
     }
